@@ -60,4 +60,7 @@ public class Netherite_Hammer extends ItemCustom {
     public boolean isPickaxe() {
         return true;
     }
+    public int getMiningSpeed() {
+        return 15; // Скорость добычи для алмазного молота
+    }
 }

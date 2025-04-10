@@ -60,4 +60,7 @@ public class Diamond_Hammer extends ItemCustom {
     public boolean isPickaxe() {
         return true;
     }
+    public int getMiningSpeed() {
+        return 8; // Скорость добычи для алмазного молота
+    }
 }
