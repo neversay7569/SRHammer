@@ -1,0 +1,18 @@
+{
+	"resource_pack-name": "vanilla",
+	"texture_name": "atlas.items",
+	"texture_data": {
+		"diamond_hammer": {
+			"textures": "textures/items/diamond_hammer.png"
+		},
+		"gold_hammer": {
+			"textures": "textures/items/gold_hammer.png"
+		},
+		"iron_hammer": {
+			"textures": "textures/items/iron_hammer.png"
+		},
+		"netherite_hammer": {
+			"textures": "textures/items/netherite_hammer.png"
+		}
+	}
+}

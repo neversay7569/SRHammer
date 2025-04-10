@@ -1,0 +1,24 @@
+{
+    "format_version": 2,
+    "header": {
+        "description": "§l§bS§dR§f плагин на молоты для NukkitMOT",
+        "name": "§l§bS§dR§f плагин на молоты",
+        "uuid": "61a2e86d-7b4d-4622-8bae-f09e359da3cb",
+        "version": [54, 0, 0],
+        "min_engine_version": [1, 13, 0]
+    },
+    "modules": [
+        {
+        "description": "§l§bS§dR§f плагин на молоты для NukkitMOT",
+            "type": "resources",
+            "uuid": "6c52a12b-850a-44ba-98d7-930b9f4fca0b",
+            "version": [54, 0, 0]
+        }
+    ],
+    "dependencies": [
+        {
+            "uuid": "1b821589-d148-417f-a1fc-bcec847b4b8c",
+            "version": [54, 0, 0]
+        }
+	]
+}
