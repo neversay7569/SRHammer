@@ -35,23 +35,21 @@ public class HammerListener implements Listener {
                 } else if (event.getItem() instanceof Netherite_Hammer) {
                     miningSpeed = ((Netherite_Hammer) event.getItem()).getMiningSpeed();
                 } else {
-                    miningSpeed = 1; // Default mining speed
+                    miningSpeed = 1;
                 }
                 for (int x = -1; x <= 1; x++) {
                     for (int y = -1; y <= 1; y++) {
                         for (int z = -1; z <= 1; z++) {
                             Vector3 blockPos = new Vector3(clickedBlock.x + x, clickedBlock.y + y, clickedBlock.z + z);
                             Block block = level.getBlock(blockPos);
-                            if (block.getId() != 0) { // Проверяем, что блок не воздух
-                                // Создаем и вызываем событие BlockBreakEvent от имени игрока
+                            if (block.getId() != 0) {
                                 BlockBreakEvent breakEvent = new BlockBreakEvent(event.getPlayer(), block, event.getItem(), block.getDrops(event.getItem()), false, false);
                                 level.getServer().getPluginManager().callEvent(breakEvent);
                                 if (!breakEvent.isCancelled()) {
-                                    // Если событие не отменено, уничтожаем блок
                                     block.onBreak(event.getPlayer().getInventory().getItemInHand());
                                 }
                                 try {
-                                    Thread.sleep(miningSpeed); // Задержка между добычей блоков
+                                    Thread.sleep(miningSpeed);
                                 } catch (InterruptedException e) {
                                     e.printStackTrace();
                                 }
