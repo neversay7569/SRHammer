@@ -1,1 +1,1 @@
-SRHammer for Nukkit MOT
+#SRHammer for Nukkit MOT
