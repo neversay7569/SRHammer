@@ -8,32 +8,32 @@ import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.item.customitem.ItemCustom;
 import cn.nukkit.level.Level;
 import cn.nukkit.math.Vector3;
-import ru.sr.hammer.species.Diamond_Hammer;
-import ru.sr.hammer.species.Gold_Hammer;
-import ru.sr.hammer.species.Iron_Hammer;
-import ru.sr.hammer.species.Netherite_Hammer;
+import ru.sr.hammer.items.species.DiamondHammer;
+import ru.sr.hammer.items.species.GoldHammer;
+import ru.sr.hammer.items.species.IronHammer;
+import ru.sr.hammer.items.species.NetheriteHammer;
 
 public class HammerListener implements Listener {
 
     @EventHandler
     public void onPlayerInteract(PlayerInteractEvent event) {
         if (event.getItem() instanceof ItemCustom &&
-                (event.getItem() instanceof Diamond_Hammer ||
-                        event.getItem() instanceof Gold_Hammer ||
-                        event.getItem() instanceof Iron_Hammer ||
-                        event.getItem() instanceof Netherite_Hammer)) {
+                (event.getItem() instanceof DiamondHammer ||
+                        event.getItem() instanceof GoldHammer ||
+                        event.getItem() instanceof IronHammer ||
+                        event.getItem() instanceof NetheriteHammer)) {
             Block clickedBlock = event.getBlock();
             if (clickedBlock != null) {
                 Level level = event.getPlayer().getLevel();
                 int miningSpeed;
-                if (event.getItem() instanceof Diamond_Hammer) {
-                    miningSpeed = ((Diamond_Hammer) event.getItem()).getMiningSpeed();
-                } else if (event.getItem() instanceof Gold_Hammer) {
-                    miningSpeed = ((Gold_Hammer) event.getItem()).getMiningSpeed();
-                } else if (event.getItem() instanceof Iron_Hammer) {
-                    miningSpeed = ((Iron_Hammer) event.getItem()).getMiningSpeed();
-                } else if (event.getItem() instanceof Netherite_Hammer) {
-                    miningSpeed = ((Netherite_Hammer) event.getItem()).getMiningSpeed();
+                if (event.getItem() instanceof DiamondHammer) {
+                    miningSpeed = ((DiamondHammer) event.getItem()).getMiningSpeed();
+                } else if (event.getItem() instanceof GoldHammer) {
+                    miningSpeed = ((GoldHammer) event.getItem()).getMiningSpeed();
+                } else if (event.getItem() instanceof IronHammer) {
+                    miningSpeed = ((IronHammer) event.getItem()).getMiningSpeed();
+                } else if (event.getItem() instanceof NetheriteHammer) {
+                    miningSpeed = ((NetheriteHammer) event.getItem()).getMiningSpeed();
                 } else {
                     miningSpeed = 1;
                 }
