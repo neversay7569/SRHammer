@@ -48,20 +48,11 @@ public abstract class Hammer extends ItemCustomTool {
     /**
      * Overridable method to correctly register custom item
      * <p>
-     * Default offset: 32
+     * Default offset: 16
      * @return scaleOffset
      */
     public int scaleOffset() {
-        return 32;
-    }
-
-    /**
-     * Returns a mining speed of the hummer
-     *
-     * @return int mining speed
-     */
-    public int getMiningSpeed() {
-        return 0;
+        return 16;
     }
 
     /**

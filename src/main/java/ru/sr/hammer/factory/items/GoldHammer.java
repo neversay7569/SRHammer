@@ -36,9 +36,4 @@ public class GoldHammer extends Hammer {
     public boolean isPickaxe() {
         return true;
     }
-
-    @Override
-    public int getMiningSpeed() {
-        return 12;
-    }
 }

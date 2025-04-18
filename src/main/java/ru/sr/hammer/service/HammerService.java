@@ -1,6 +1,6 @@
 package ru.sr.hammer.service;
 
-import cn.nukkit.event.player.PlayerInteractEvent;
+import cn.nukkit.event.block.BlockBreakEvent;
 import org.jetbrains.annotations.NotNull;
 import ru.sr.hammer.data.Hammer;
 
@@ -13,7 +13,7 @@ public interface HammerService {
      *
      * @param event player interact event
      */
-    boolean tryToBreak(@NotNull PlayerInteractEvent event);
+    boolean tryToBreak(@NotNull BlockBreakEvent event);
 
     /**
      * If HammerService#tryToBreak(PlayerInteractEvent) is true, this method calls to break blocks
@@ -22,5 +22,5 @@ public interface HammerService {
      * @param hammer hammer
      * @return none
      */
-    CompletableFuture<Void> breakWithHammer(@NotNull PlayerInteractEvent event, Hammer hammer);
+    CompletableFuture<Void> breakWithHammer(@NotNull BlockBreakEvent event, Hammer hammer);
 }
