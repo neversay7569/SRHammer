@@ -2,8 +2,7 @@ package ru.sr.hammer.service;
 
 import cn.nukkit.event.player.PlayerInteractEvent;
 import org.jetbrains.annotations.NotNull;
-import ru.sr.hammer.SRHammer;
-import ru.sr.hammer.items.Hammer;
+import ru.sr.hammer.data.Hammer;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -24,8 +23,4 @@ public interface HammerService {
      * @return none
      */
     CompletableFuture<Void> breakWithHammer(@NotNull PlayerInteractEvent event, Hammer hammer);
-
-    static HammerService getInstance() {
-        return SRHammer.getInstance().getHammerService();
-    }
 }

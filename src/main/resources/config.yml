@@ -1,0 +1,77 @@
+# Major refactor by SocialMoods
+
+# TIER_WOODEN = 1;
+# TIER_GOLD = 2;
+# TIER_STONE = 3;
+# TIER_IRON = 4;
+# TIER_DIAMOND = 5;
+# TIER_NETHERITE = 6;
+
+hammers:
+  diamond_hammer:
+    # Namespaceid
+    id: "sr:diamond_hammer"
+    # In-game name
+    name: "Алмазный молот"
+    # Texture id
+    texture: "diamond_hammer"
+
+    # Item settings
+    max_durability: 1561
+    attack_damage: 8
+    tier: 5 # TIER_DIAMOND
+    enchant_ability: 10
+    is_pickaxe: true
+    mining_speed: 8
+    scale_offset: 32
+
+  netherite_hammer:
+    # Namespaceid
+    id: "sr:netherite_hammer"
+    # In-game name
+    name: "Незеритовый молот"
+    # Texture id
+    texture: "netherite_hammer"
+
+    # Item settings
+    max_durability: 2031
+    attack_damage: 10
+    tier: 6 # TIER_NETHERITE
+    enchant_ability: 15
+    is_pickaxe: true
+    mining_speed: 15
+    scale_offset: 32
+
+  iron_hammer:
+    # Namespaceid
+    id: "sr:iron_hammer"
+    # In-game name
+    name: "Железный молот"
+    # Texture id
+    texture: "iron_hammer"
+
+    # Item settings
+    max_durability: 250
+    attack_damage: 6
+    tier: 4 # TIER_IRON
+    enchant_ability: 14
+    is_pickaxe: true
+    mining_speed: 6
+    scale_offset: 32
+
+  gold_hammer:
+    # Namespaceid
+    id: "sr:gold_hammer"
+    # In-game name
+    name: "Золотой молот"
+    # Texture id
+    texture: "gold_hammer"
+
+    # Item settings
+    max_durability: 33
+    attack_damage: 4
+    tier: 2 # TIER_GOLD
+    enchant_ability: 22
+    is_pickaxe: true
+    mining_speed: 12
+    scale_offset: 32

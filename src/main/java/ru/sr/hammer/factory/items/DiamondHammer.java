@@ -1,7 +1,7 @@
-package ru.sr.hammer.items.species;
+package ru.sr.hammer.factory.items;
 
 import cn.nukkit.item.ItemTool;
-import ru.sr.hammer.items.Hammer;
+import ru.sr.hammer.data.Hammer;
 
 public class DiamondHammer extends Hammer {
     private static final String spacenameId = "sr:diamond_hammer";
@@ -11,6 +11,7 @@ public class DiamondHammer extends Hammer {
     public DiamondHammer() {
         super(spacenameId, name, textureName);
     }
+
 
     @Override
     public int getMaxDurability() {

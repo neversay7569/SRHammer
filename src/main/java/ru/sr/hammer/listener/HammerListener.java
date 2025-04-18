@@ -1,8 +1,8 @@
-package ru.sr.hammer;
+package ru.sr.hammer.listener;
 
 import cn.nukkit.event.Listener;
 import cn.nukkit.event.player.PlayerInteractEvent;
-import ru.sr.hammer.items.Hammer;
+import ru.sr.hammer.data.Hammer;
 import ru.sr.hammer.service.HammerService;
 
 import lombok.AllArgsConstructor;

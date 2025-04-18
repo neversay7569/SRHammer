@@ -1,12 +1,7 @@
-package ru.sr.hammer.items.species;
+package ru.sr.hammer.factory.items;
 
 import cn.nukkit.item.ItemTool;
-import cn.nukkit.item.customitem.CustomItemDefinition;
-import cn.nukkit.item.customitem.ItemCustom;
-import cn.nukkit.item.customitem.data.ItemCreativeCategory;
-import cn.nukkit.item.customitem.data.ItemCreativeGroup;
-import cn.nukkit.item.customitem.data.RenderOffsets;
-import ru.sr.hammer.items.Hammer;
+import ru.sr.hammer.data.Hammer;
 
 public class IronHammer extends Hammer {
     private static final String spacenameId = "sr:iron_hammer";
@@ -15,11 +10,6 @@ public class IronHammer extends Hammer {
 
     public IronHammer() {
         super(spacenameId, name, textureName);
-    }
-
-    @Override
-    public int scaleOffset() {
-        return 32;
     }
 
     @Override

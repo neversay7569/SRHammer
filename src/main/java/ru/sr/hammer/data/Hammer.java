@@ -1,4 +1,4 @@
-package ru.sr.hammer.items;
+package ru.sr.hammer.data;
 
 import cn.nukkit.item.customitem.CustomItemDefinition;
 import cn.nukkit.item.customitem.ItemCustomTool;
@@ -9,6 +9,9 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+/**
+ * The class that implements the basis for the hammer
+ */
 @Getter
 @Setter
 public abstract class Hammer extends ItemCustomTool {
@@ -36,18 +39,18 @@ public abstract class Hammer extends ItemCustomTool {
                 .toolBuilder(this, CreativeItemCategory.EQUIPMENT)
                 .allowOffHand(false)
                 .handEquipped(true)
-                .renderOffsets(RenderOffsets.scaleOffset(scaleOffset()))
+                .renderOffsets(RenderOffsets.scaleOffset(this.scaleOffset()))
                 .build();
     }
 
     /**
      * Overridable method to correctly register custom item
      * <p>
-     * Default offset: 16
+     * Default offset: 32
      * @return scaleOffset
      */
     public int scaleOffset() {
-        return 0;
+        return 32;
     }
 
     /**

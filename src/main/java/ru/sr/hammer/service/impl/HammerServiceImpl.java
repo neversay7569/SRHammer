@@ -2,22 +2,30 @@ package ru.sr.hammer.service.impl;
 
 import cn.nukkit.Player;
 import cn.nukkit.block.Block;
-import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.event.player.PlayerInteractEvent;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
 import cn.nukkit.math.Vector3;
+import ru.sr.hammer.data.Hammer;
+import ru.sr.hammer.service.HammerService;
+
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
-import ru.sr.hammer.items.Hammer;
-import ru.sr.hammer.service.HammerService;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class HammerServiceImpl implements HammerService {
+
+    // Map to collect data about cooldowns (anti-lag system)
+    private final Map<Player, Long> lastUsage = new ConcurrentHashMap<>();
+    private static final long COOLDOWN = TimeUnit.MILLISECONDS.convert(500, TimeUnit.MILLISECONDS);
+
     /**
      * Method to use scan event to hammer using
      *
@@ -32,6 +40,10 @@ public class HammerServiceImpl implements HammerService {
 
         // Use only on hammers
         if (!(event.getItem() instanceof Hammer)) {
+            return false;
+        }
+
+        if (isOnCooldown(event.getPlayer())) {
             return false;
         }
 
@@ -91,35 +103,52 @@ public class HammerServiceImpl implements HammerService {
         return CompletableFuture.runAsync(() -> {
             try {
                 for (Vector3 blockPos : blocksToBreak) {
-                    Block block = level.getBlock(blockPos);
 
-                    // Create and call break event
-                    BlockBreakEvent breakEvent = new BlockBreakEvent(
-                            player,
-                            block,
-                            tool,
-                            block.getDrops(tool),
-                            false,
-                            false
-                    );
-
-                    level.getServer().getPluginManager().callEvent(breakEvent);
-
-                    if (!breakEvent.isCancelled()) {
-                        // Break the block
-                        block.onBreak(tool);
-
-                        if (hammer.getMiningSpeed() > 0) {
-                            Thread.sleep(hammer.getMiningSpeed());
-                        }
+                    // Use Level#useBreakOn for vanilla functionality
+                    level.useBreakOn(blockPos, tool, player, true);
+                    try {
+                        Thread.sleep(hammer.getMiningSpeed());
+                    } catch (InterruptedException e) {
+                        log.error("HammerService#breakWithHammer(@NotNull PlayerInteractEvent event, Hammer hammer) unhandled interrupted exception", e);
                     }
                 }
-            } catch (InterruptedException e) {
-                Thread.currentThread().interrupt();
-                log.error("HammerService#breakWithHummer(@NotNull PlayerInteractEvent event, Hammer hammer) unhandled interrupt exception", e);
             } catch (Exception e) {
-                log.error("HammerService#breakWithHummer(@NotNull PlayerInteractEvent event, Hammer hammer) unhandled exception", e);
+                log.error("HammerService#breakWithHammer(@NotNull PlayerInteractEvent event, Hammer hammer) unhandled exception", e);
             }
+
+            // Update players cooldown
+            updateCooldown(player);
         });
+    }
+
+    /**
+     * Checks player cooldown
+     *
+     * @param player player
+     * @return boolean
+     */
+    private boolean isOnCooldown(Player player) {
+        Long lastUsed = lastUsage.get(player);
+        if (lastUsed == null) return false;
+
+        long elapsed = System.currentTimeMillis() - lastUsed;
+        if (elapsed < COOLDOWN) {
+            player.sendActionBar("Подождите " + (COOLDOWN - elapsed) + "мс");
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * Updates player cooldown
+     *
+     * @param player player
+     */
+    private void updateCooldown(Player player) {
+        lastUsage.put(player, System.currentTimeMillis());
+
+        if (lastUsage.size() > 1000) {
+            lastUsage.keySet().removeIf(p -> !p.isOnline());
+        }
     }
 }
