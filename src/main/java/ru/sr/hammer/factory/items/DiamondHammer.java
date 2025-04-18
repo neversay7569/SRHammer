@@ -37,9 +37,4 @@ public class DiamondHammer extends Hammer {
     public boolean isPickaxe() {
         return true;
     }
-
-    @Override
-    public int getMiningSpeed() {
-        return 8;
-    }
 }

@@ -2,37 +2,34 @@ package ru.sr.hammer.service.impl;
 
 import cn.nukkit.Player;
 import cn.nukkit.block.Block;
-import cn.nukkit.event.player.PlayerInteractEvent;
+import cn.nukkit.event.block.BlockBreakEvent;
 import cn.nukkit.item.Item;
 import cn.nukkit.level.Level;
 import cn.nukkit.math.Vector3;
-import ru.sr.hammer.data.Hammer;
-import ru.sr.hammer.service.HammerService;
-
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import ru.sr.hammer.data.Hammer;
+import ru.sr.hammer.service.BlockBreakerService;
+import ru.sr.hammer.service.HammerService;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ConcurrentHashMap;
-import java.util.concurrent.TimeUnit;
 
 @Slf4j
 public class HammerServiceImpl implements HammerService {
 
     // Map to collect data about cooldowns (anti-lag system)
     private final Map<Player, Long> lastUsage = new ConcurrentHashMap<>();
-    private static final long COOLDOWN = TimeUnit.MILLISECONDS.convert(500, TimeUnit.MILLISECONDS);
-
     /**
      * Method to use scan event to hammer using
      *
      * @param event player interact event
      */
     @Override
-    public boolean tryToBreak(@NotNull PlayerInteractEvent event) {
+    public boolean tryToBreak(@NotNull BlockBreakEvent event) {
         // Compatibility with other plugins
         if (event.isCancelled()) {
             return false;
@@ -52,11 +49,6 @@ public class HammerServiceImpl implements HammerService {
             return false;
         }
 
-        // Preventing erroneous breakages
-        if (event.getAction() != PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) {
-            return false;
-        }
-
         return true;
     }
 
@@ -68,10 +60,13 @@ public class HammerServiceImpl implements HammerService {
      * @return none
      */
     @Override
-    public CompletableFuture<Void> breakWithHammer(@NotNull PlayerInteractEvent event, Hammer hammer) {
+    public CompletableFuture<Void> breakWithHammer(@NotNull BlockBreakEvent event, Hammer hammer) {
         if (event.getPlayer() == null || event.getBlock() == null) {
             return CompletableFuture.completedFuture(null);
         }
+
+        // Prevent PlayerAuthInput packet error
+        event.setCancelled(true);
 
         return CompletableFuture.runAsync(() -> {
             Player player = event.getPlayer();
@@ -103,13 +98,8 @@ public class HammerServiceImpl implements HammerService {
             try {
                 for (Vector3 blockPos : blocksToBreak) {
 
-                    // Use Level#useBreakOn for vanilla functionality
-                    level.useBreakOn(blockPos, tool, player, true);
-                    try {
-                        Thread.sleep(hammer.getMiningSpeed());
-                    } catch (InterruptedException e) {
-                        log.error("HammerService#breakWithHammer(@NotNull PlayerInteractEvent event, Hammer hammer) unhandled interrupted exception", e);
-                    }
+                    // Async breaking blocks
+                    BlockBreakerService.getInstance().breakBlock(blockPos, tool, player, level);
                 }
             } catch (Exception e) {
                 log.error("HammerService#breakWithHammer(@NotNull PlayerInteractEvent event, Hammer hammer) unhandled exception", e);
