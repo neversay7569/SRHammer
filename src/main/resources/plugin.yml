@@ -1,9 +1,4 @@
 name: SRHammer
-version: 2.0.0
+version: 1.0-SNAPSHOT
 main: ru.sr.hammer.SRHammer
-api: ["2.0.0"]
-description: Молоты для NukkitMot
-author: Never7569Say
-discord: neversay7569
-vk: https://vk.com/neversay7569
-github: https://github.com/neversay7569
+api: 1.0.0
