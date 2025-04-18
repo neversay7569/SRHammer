@@ -9,6 +9,8 @@ import lombok.Setter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  * The class that implements the basis for the hammer
  */
@@ -60,5 +62,18 @@ public abstract class Hammer extends ItemCustomTool {
      */
     public int getMiningSpeed() {
         return 0;
+    }
+
+    /**
+     * Returns use cooldown in milliseconds
+     * <p>
+     * You can use custom cooldown settings here like:
+     * <p>
+     * <code>TimeUnit.MILLISECONDS.convert(5, TimeUnit.SECONDS) - 5 seconds cooldown</code>
+     * <p>
+     * Dont forget to add overrided method in the class
+     */
+    public long getCooldown() {
+        return TimeUnit.MILLISECONDS.convert(500, TimeUnit.MILLISECONDS);
     }
 }

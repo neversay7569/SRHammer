@@ -39,11 +39,11 @@ public class HammerServiceImpl implements HammerService {
         }
 
         // Use only on hammers
-        if (!(event.getItem() instanceof Hammer)) {
+        if (!(event.getItem() instanceof Hammer hammer)) {
             return false;
         }
 
-        if (isOnCooldown(event.getPlayer())) {
+        if (isOnCooldown(event.getPlayer(), hammer)) {
             return false;
         }
 
@@ -73,34 +73,33 @@ public class HammerServiceImpl implements HammerService {
             return CompletableFuture.completedFuture(null);
         }
 
-        Player player = event.getPlayer();
-        Block centerBlock = event.getBlock();
-        Level level = player.getLevel();
-        Item tool = event.getItem();
+        return CompletableFuture.runAsync(() -> {
+            Player player = event.getPlayer();
+            Block centerBlock = event.getBlock();
+            Level level = player.getLevel();
+            Item tool = event.getItem();
 
-        // Prepare list of blocks to break
-        List<Vector3> blocksToBreak = new ArrayList<>(27);
+            // Prepare list of blocks to break
+            List<Vector3> blocksToBreak = new ArrayList<>(27);
 
-        for (int x = -1; x <= 1; x++) {
-            for (int y = -1; y <= 1; y++) {
-                for (int z = -1; z <= 1; z++) {
-                    Vector3 blockPos = new Vector3(
-                            centerBlock.x + x,
-                            centerBlock.y + y,
-                            centerBlock.z + z
-                    );
-                    Block block = level.getBlock(blockPos);
+            for (int x = -1; x <= 1; x++) {
+                for (int y = -1; y <= 1; y++) {
+                    for (int z = -1; z <= 1; z++) {
+                        Vector3 blockPos = new Vector3(
+                                centerBlock.x + x,
+                                centerBlock.y + y,
+                                centerBlock.z + z
+                        );
+                        Block block = level.getBlock(blockPos);
 
-                    // Skip air blocks
-                    if (block.getId() != 0) {
-                        blocksToBreak.add(blockPos);
+                        // Skip air blocks
+                        if (block.getId() != 0) {
+                            blocksToBreak.add(blockPos);
+                        }
                     }
                 }
             }
-        }
 
-        // Process blocks asynchronously
-        return CompletableFuture.runAsync(() -> {
             try {
                 for (Vector3 blockPos : blocksToBreak) {
 
@@ -116,7 +115,6 @@ public class HammerServiceImpl implements HammerService {
                 log.error("HammerService#breakWithHammer(@NotNull PlayerInteractEvent event, Hammer hammer) unhandled exception", e);
             }
 
-            // Update players cooldown
             updateCooldown(player);
         });
     }
@@ -127,13 +125,12 @@ public class HammerServiceImpl implements HammerService {
      * @param player player
      * @return boolean
      */
-    private boolean isOnCooldown(Player player) {
+    private boolean isOnCooldown(Player player, Hammer hammer) {
         Long lastUsed = lastUsage.get(player);
         if (lastUsed == null) return false;
 
         long elapsed = System.currentTimeMillis() - lastUsed;
-        if (elapsed < COOLDOWN) {
-            player.sendActionBar("Подождите " + (COOLDOWN - elapsed) + "мс");
+        if (elapsed < hammer.getCooldown()) {
             return true;
         }
         return false;
