@@ -15,6 +15,7 @@ import cn.nukkit.math.Vector3;
 import cn.nukkit.nbt.tag.ListTag;
 import cn.nukkit.nbt.tag.StringTag;
 import cn.nukkit.nbt.tag.Tag;
+import cn.nukkit.potion.Effect;
 import ru.sr.hammer.service.BlockBreakerService;
 
 import java.util.Map;
@@ -62,11 +63,35 @@ public class BlockBreakerServiceImpl implements BlockBreakerService {
                     }
                 }
 
+                double breakTime = target.calculateBreakTime(item, player);
+
+                if (player.isCreative() && breakTime > 0.15) {
+                    breakTime = 0.15;
+                }
+
+                if (player.hasEffect(Effect.HASTE)) {
+                    breakTime *= 1 - (0.2 * (player.getEffect(Effect.HASTE).getAmplifier() + 1));
+                }
+
+                if (player.hasEffect(Effect.MINING_FATIGUE)) {
+                    breakTime *= 1 - (0.3 * (player.getEffect(Effect.MINING_FATIGUE).getAmplifier() + 1));
+                }
+
+                Enchantment eff = item.getEnchantment(Enchantment.ID_EFFICIENCY);
+
+                if (eff != null && eff.getLevel() > 0) {
+                    breakTime *= 1 - (0.3 * eff.getLevel());
+                }
+
+                breakTime -= 0.15;
+
                 Item[] eventDrops;
 
                 eventDrops = target.getDrops(player, item);
 
-                BlockBreakEvent ev = new BlockBreakEvent(player, target, null, item, eventDrops, player.isCreative(), true);
+                boolean fastBreak = (player.lastBreak + breakTime * 1000) > Long.sum(System.currentTimeMillis(), 1000);
+
+                BlockBreakEvent ev = new BlockBreakEvent(player, target, null, item, eventDrops, player.isCreative(), fastBreak);
 
                 Server.getInstance().getPluginManager().callEvent(ev);
                 if (ev.isCancelled()) {
