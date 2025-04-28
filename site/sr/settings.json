@@ -3,7 +3,9 @@
     "type": "plugin",
     "version": "2.0",
     "author": "NeverSay, schnevepex, SocialMoods",
-    "description": "Плагин на буры которые ломают 3 на 3",
+    "short_description": "Плагин на буры которые ломают 3 на 3",
+    "full_description": "Плагин SRHammer добавит на ваш майнкрафт сервер разные молоты которые копают 3 на 3.",
+    "download": "SRHammer-2.0-SNAPSHOT.jar",
     "slide_speed": 5000,
-    "details": "<h3>Особенности</h3><ul><li>Реалистичное разрушение</li><li>Настройка радиусов</li></ul>"
+    "details": "<h3>Особенности</h3><ul><li>Много видов</li><li>Плагин активно обновляется</li></ul>"
 }
