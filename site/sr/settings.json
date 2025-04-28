@@ -1,10 +1,9 @@
 {
-  "name": "SRHammer",
-  "type": "plugin",
-  "description": "Плагин для улучшенного разрушения блоков",
-  "category": "Геймплей",
-  "author": "NeverSay",
-  "version": "2.0",
-  "auto_slide": true,
-  "slide_speed": 5000
+    "name": "SRHammer",
+    "type": "plugin",
+    "version": "2.0",
+    "author": "NeverSay",
+    "description": "Плагин для улучшенного разрушения блоков",
+    "slide_speed": 5000,
+    "details": "<h3>Особенности</h3><ul><li>Реалистичное разрушение</li><li>Настройка радиусов</li></ul>"
 }
