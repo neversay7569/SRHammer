@@ -2,8 +2,8 @@
     "name": "SRHammer",
     "type": "plugin",
     "version": "2.0",
-    "author": "NeverSay",
-    "description": "Плагин для улучшенного разрушения блоков",
+    "author": "NeverSay, schnevepex, SocialMoods",
+    "description": "Плагин на буры которые ломают 3 на 3",
     "slide_speed": 5000,
     "details": "<h3>Особенности</h3><ul><li>Реалистичное разрушение</li><li>Настройка радиусов</li></ul>"
 }
