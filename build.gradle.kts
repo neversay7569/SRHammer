@@ -3,11 +3,11 @@ plugins {
 }
 
 group = "ru.sr.hammer"
-version = "1.0-SNAPSHOT"
+version = "1.0-Lumi"
 
 java {
     toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+        languageVersion = JavaLanguageVersion.of(21)
     }
 }
 
@@ -17,13 +17,19 @@ repositories {
     maven("https://repo.opencollab.dev/maven-releases/")
     maven("https://repo.opencollab.dev/maven-snapshots/")
     maven("https://repo.lanink.cn/repository/maven-public/")
+    maven {
+        name = "luminiadevRepositorySnapshots"
+        url = uri("https://repo.luminiadev.com/snapshots")
+    }
 }
 
 dependencies {
-    compileOnly("cn.nukkit:Nukkit:MOT-SNAPSHOT")
+    testImplementation(platform("org.junit:junit-bom:5.10.0"))
+    testImplementation("org.junit.jupiter:junit-jupiter")
+    compileOnly("com.koshakmine:Lumi:1.4.0-SNAPSHOT")
     compileOnly("org.jetbrains:annotations:26.0.2")
-    compileOnly("org.projectlombok:lombok:1.18.32")
-    annotationProcessor("org.projectlombok:lombok:1.18.36")
+    compileOnly("org.projectlombok:lombok:1.18.38")
+    annotationProcessor("org.projectlombok:lombok:1.18.38")
 }
 
 tasks.withType<JavaCompile> {
